@@ -41,40 +41,47 @@ export class Demoblaze {
     await this.loginButton.click();
   }
 
+  async getProductInCategory(categoryLink, apiCategoryText) {
+    await Promise.all([
+      this.page.waitForResponse(async response => {
+        if (response.url() === 'https://api.demoblaze.com/bycat') {
+          const text = await response.text();
+          return text.includes(apiCategoryText);
+        }
+        return false;
+      }),
+      categoryLink.click()
+    ]);
+    return await this.productCard.count();
+  }
+
   async verifyProductInCategories() {
-    await this.laptopsCategoryLink.click();
-    await this.page.waitForTimeout(2000);
-    console.log("Number of laptops: " + (await this.productCard.count()));
-    await this.monitorsCategoryLink.click();
-    await this.page.waitForTimeout(2000);
-    console.log("Number of monitors: " + (await this.productCard.count()));
-    await this.phonesCategoryLink.click();
-    await this.page.waitForTimeout(2000);
-    console.log("Number of phones: " + (await this.productCard.count()));
+    const laptopCount = await this.getProductInCategory(this.laptopsCategoryLink, 'notebook');
+    const monitorCount = await this.getProductInCategory(this.monitorsCategoryLink, 'monitor');
+    const phoneCount = await this.getProductInCategory(this.phonesCategoryLink, 'phone');
+
+    return { laptopCount, monitorCount, phoneCount };
   }
 
   async filterPhone(maxPrice, phone) {
     await this.phonesCategoryLink.click();
-    const filteredProduct = [];
-    for (let i = 0; i < (await this.productCard.count()); i++) {
-      const price = await this.productCardPrice.nth(i).textContent();
-      const name = await this.productCardName.nth(i).textContent();
+    const prices = await this.productCardPrice.allTextContents();
+    const names = await this.productCardName.allTextContents();
+    const filteredProduct = prices.map((price, index) => {
       const parsedPrice = parseInt(price.replace("$", ""));
-      if (parsedPrice <= maxPrice && name.includes(phone)) {
-        filteredProduct.push({ name, price });
-      }
-    }
-    console.log("Filtered product:", filteredProduct);
+      const name = names[index];
+      return { name, price, parsedPrice };
+    }).filter(product => product.parsedPrice <= maxPrice && product.name.includes(phone))
+      .map(product => ({ name: product.name, price: product.price }));
+
+    return filteredProduct;
   }
 
   async addLastProductToCart() {
     await this.categoriesLink.click();
     await this.nextButton.click();
-    // await this.page.waitForTimeout(2000);
     await this.productCard.last().click();
-    // await this.page.waitForTimeout(2000);
     await this.addToCartButton.click();
-    // await this.page.waitForTimeout(2000);
     await this.cartLink.click();
     await expect(this.cartItemRow).toBeVisible();
   }

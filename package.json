@@ -4,10 +4,16 @@
   "description": "This is a demo Playwright project",
   "main": "index.js",
   "scripts": {
-    "Demoqa": "npx playwright test --grep @DemoQA",
+    "chrome": "npx playwright test --project=chromium",
+    "firefox": "npx playwright test --project=firefox",
+    "webkit": "npx playwright test --project=webkit",
+    "Demoqa": "npx playwright test --grep @Demoqa",
     "Demoblaze": "npx playwright test --grep @Demoblaze",
-    "SingleUser": "npx playwright test --grep @SingleUser",
-    "MultiUser": "npx playwright test --grep @MultiUser"
+    "SingleUserChrome": "npx playwright test --grep @SingleUser --project=chromium",
+    "MultiUserChrome": "npx playwright test --grep @MultiUser --project=chromium",
+    "Signup": "npx playwright test --grep @Signup",
+    "ExcelTest": "npx playwright test --grep @ExcelTest",
+    "VisualTest": "npx playwright test --grep @VisualTest"
   },
   "author": "Malavika Diwan",
   "license": "ISC",

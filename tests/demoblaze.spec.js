@@ -11,7 +11,7 @@ test("Demoblaze - Sign Up", { tag: '@Demoblaze' }, async ({ page }) => {
   });
 });
 
-test.only("Demoblaze - Login error and Product browsing", { tag: '@Demoblaze' }, async ({ page }) => {
+test("Demoblaze - Login error and Product browsing", { tag: '@Demoblaze' }, async ({ page }) => {
   const demoblaze = new Demoblaze(page);
   await page.goto("https://demoblaze.com/");
   await demoblaze.login("abc", "abc");
@@ -20,8 +20,13 @@ test.only("Demoblaze - Login error and Product browsing", { tag: '@Demoblaze' },
     await alert.accept();
   });
   await demoblaze.loginModalCloseIcon.click();
-  await demoblaze.verifyProductInCategories();
-  await demoblaze.filterPhone(650, "Sony");
+  const productCounts = await demoblaze.verifyProductInCategories();
+  const { laptopCount, monitorCount, phoneCount } = productCounts;
+  console.log(`Laptop count: ${laptopCount}`);
+  console.log(`Monitor count: ${monitorCount}`);
+  console.log(`Phone count: ${phoneCount}`);
+  const filteredProducts = await demoblaze.filterPhone(650, "Sony");
+  console.log("Filtered products:", filteredProducts);
 });
 
 test("Demoblaze - Login, Add to cart and logout", { tag: '@Demoblaze' }, async ({ page }) => {
