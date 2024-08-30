@@ -6,12 +6,12 @@ export class Demoblaze {
     this.signUpLink = page.locator("#signin2");
     this.signUpUsernameField = page.locator("#sign-username");
     this.signUpPasswordField = page.locator("#sign-password");
-    this.signUpButton = page.locator(".btn-primary").getByText("Sign up");
+    this.signUpButton = page.locator(".btn-primary", { hasText: "Sign up" });
     this.loginLink = page.locator("#login2");
     this.loginUsernameField = page.locator("#loginusername");
     this.loginPasswordField = page.locator("#loginpassword");
     this.loginModalCloseIcon = page.getByLabel("Log in").getByLabel("Close");
-    this.loginButton = page.locator(".btn-primary").getByText("Log in");
+    this.loginButton = page.locator(".btn-primary", { hasText: "Log in" });
     this.welcomeUserLinkText = page.locator("#nameofuser");
     this.productCard = page.locator(".card");
     this.productCardPrice = page.locator(".card-block h5");
@@ -43,23 +43,18 @@ export class Demoblaze {
 
   async getProductInCategory(categoryLink, apiCategoryText) {
     await Promise.all([
-      this.page.waitForResponse(async response => {
-        if (response.url() === 'https://api.demoblaze.com/bycat') {
-          const text = await response.text();
-          return text.includes(apiCategoryText);
-        }
-        return false;
-      }),
+      this.page.waitForResponse(response =>
+        response.url() === 'https://api.demoblaze.com/bycat' && response.text().then(text => text.includes(apiCategoryText))
+      ),
       categoryLink.click()
     ]);
-    return await this.productCard.count();
+    return this.productCard.count();
   }
 
   async verifyProductInCategories() {
     const laptopCount = await this.getProductInCategory(this.laptopsCategoryLink, 'notebook');
     const monitorCount = await this.getProductInCategory(this.monitorsCategoryLink, 'monitor');
     const phoneCount = await this.getProductInCategory(this.phonesCategoryLink, 'phone');
-
     return { laptopCount, monitorCount, phoneCount };
   }
 
@@ -67,14 +62,12 @@ export class Demoblaze {
     await this.phonesCategoryLink.click();
     const prices = await this.productCardPrice.allTextContents();
     const names = await this.productCardName.allTextContents();
-    const filteredProduct = prices.map((price, index) => {
-      const parsedPrice = parseInt(price.replace("$", ""));
-      const name = names[index];
-      return { name, price, parsedPrice };
-    }).filter(product => product.parsedPrice <= maxPrice && product.name.includes(phone))
+    return prices.map((price, index) => ({
+      name: names[index],
+      price,
+      parsedPrice: parseInt(price.replace("$", ""))
+    })).filter(product => product.parsedPrice <= maxPrice && product.name.includes(phone))
       .map(product => ({ name: product.name, price: product.price }));
-
-    return filteredProduct;
   }
 
   async addLastProductToCart() {
@@ -82,6 +75,9 @@ export class Demoblaze {
     await this.nextButton.click();
     await this.productCard.last().click();
     await this.addToCartButton.click();
+  }
+
+  async validateProductInCart() {
     await this.cartLink.click();
     await expect(this.cartItemRow).toBeVisible();
   }

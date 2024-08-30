@@ -20,8 +20,7 @@ test("Demoblaze - Login error and Product browsing", { tag: '@Demoblaze' }, asyn
     await alert.accept();
   });
   await demoblaze.loginModalCloseIcon.click();
-  const productCounts = await demoblaze.verifyProductInCategories();
-  const { laptopCount, monitorCount, phoneCount } = productCounts;
+  const { laptopCount, monitorCount, phoneCount } = await demoblaze.verifyProductInCategories();
   console.log(`Laptop count: ${laptopCount}`);
   console.log(`Monitor count: ${monitorCount}`);
   console.log(`Phone count: ${phoneCount}`);
@@ -34,10 +33,12 @@ test("Demoblaze - Login, Add to cart and logout", { tag: '@Demoblaze' }, async (
   await page.goto("https://demoblaze.com/");
   await demoblaze.login("a", "a");
   await expect(demoblaze.welcomeUserLinkText).toContainText("a");
-  await demoblaze.addLastProductToCart();
   page.on("dialog", async (alert) => {
     expect(alert.message()).toContain("Product added.");
     await alert.accept();
   });
+  await demoblaze.addLastProductToCart();
+  await page.waitForEvent("dialog");
+  await demoblaze.validateProductInCart();
   await demoblaze.logout();
 });

@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-// const { expect } = require('playwright/test');
 
 export class CartPage {
   constructor(page) {
@@ -9,16 +8,17 @@ export class CartPage {
   }
 
   async clearCart() {
-    for (const deleteIcon of await this.deleteItemIcon.all()) {
+    const deleteIcons = await this.deleteItemIcon.all();
+    for (const deleteIcon of deleteIcons) {
       await deleteIcon.click();
     }
-    
   }
 
   async validateCartValue(productPriceArray) {
-    for (let i = 0; i < await this.totalPrice.count(); i++) {
-      expect(await this.totalPrice.nth(i).textContent()).toContain(productPriceArray[i])
-    }
+    const totalPrices = await this.totalPrice.allTextContents();
+    totalPrices.forEach((price, index) => {
+      expect(price).toContain(productPriceArray[index]);
+    });
     return productPriceArray;
   }
 }

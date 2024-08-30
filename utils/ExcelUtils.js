@@ -6,11 +6,13 @@ export class ExcelUtils {
         worksheet.eachRow((row, rowNumber) => {
             row.eachCell((cell, colNumber) => {
                 if (cell.value === searchText) {
-                    output.row = rowNum > 0 ? rowNum : rowNumber;
-                    output.column = colNum > 0 ? colNum : colNumber;
+                    output = {
+                        row: rowNum > 0 ? rowNum : rowNumber,
+                        column: colNum > 0 ? colNum : colNumber
+                    };
                 }
-            })
-        })
+            });
+        });
         return output;
     }
 
@@ -18,10 +20,13 @@ export class ExcelUtils {
         const workbook = new ExcelJs.Workbook();
         await workbook.xlsx.readFile(filePath);
         const worksheet = workbook.getWorksheet(excelWorksheet);
-        const output = await this.readExcel(worksheet, searchText, rowNum, colNum);
-        const cell = worksheet.getCell(output.row, output.column);
-        cell.value = newValue;
+        if (!worksheet) throw new Error(`Worksheet ${excelWorksheet} not found`);
+
+        const { row, column } = await this.readExcel(worksheet, searchText, rowNum, colNum);
+        if (row === -1 || column === -1) throw new Error(`Text "${searchText}" not found in the worksheet`);
+
+        worksheet.getCell(row, column).value = newValue;
         await workbook.xlsx.writeFile(filePath);
-        return cell.value;
+        return newValue;
     }
 }

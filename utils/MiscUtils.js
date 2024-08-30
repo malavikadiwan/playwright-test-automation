@@ -2,9 +2,7 @@ export class MiscUtils {
 
     async generateRandomString(length) {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        const charactersLength = characters.length;
-        const result = Array.from({ length }, () => characters.charAt(Math.floor(Math.random() * charactersLength)));
-        return result.join('');
+        return Array.from({ length }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('');
     }
 
     async generateRandomEmail(firstName) {
@@ -13,8 +11,7 @@ export class MiscUtils {
         }
         const emailProviders = ['gmail.com', 'yahoo.com', 'outlook.com', 'example.com'];
         const emailProvider = emailProviders[Math.floor(Math.random() * emailProviders.length)];
-        const email = `${firstName.toLowerCase()}${Math.floor(Math.random() * 1000)}@${emailProvider}`;
-        return email;
+        return `${firstName.toLowerCase()}${Math.floor(Math.random() * 1000)}@${emailProvider}`;
     }
 
     async getRandomInt(min, max) {

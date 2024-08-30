@@ -9,7 +9,8 @@ export class ProductsPage {
    async storePriceArrayAddToCart(productCount) {
       const productPriceArray = [];
       for (let i = 0; i < productCount; i++) {
-         productPriceArray.push(await this.productPrice.nth(i).textContent());
+         const price = await this.productPrice.nth(i).textContent();
+         productPriceArray.push(price);
          await this.addToCartButton.nth(i).click();
          await this.continueShoppingButton.click();
       }
@@ -17,9 +18,9 @@ export class ProductsPage {
    }
 
    async storePriceAndAddToCart(productPosition) {
-      const productPrice = await this.productPrice.nth(productPosition).textContent();
+      const price = await this.productPrice.nth(productPosition).textContent();
       await this.addToCartButton.nth(productPosition).click();
       await this.continueShoppingButton.click();
-      return productPrice;
+      return price;
    }
 }
