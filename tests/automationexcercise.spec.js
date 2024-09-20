@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
-import { PageObjectManager } from "../page-objects/automation-excercise/PageObjectManager.js";
+import { AEPageObjectManager } from "../page-objects/automation-excercise/AEPageObjectManager.js";
 import { MiscUtils } from "../utils/MiscUtils";
 import credentials from "../test-data/loginData.json";
 import userData from "../test-data/loginAndProductData.json";
 
 test("Automation Exercise - Single User", { tag: '@SingleUser' }, async ({ page }) => {
-    const pageManager = new PageObjectManager(page);
+    const pageManager = new AEPageObjectManager(page);
     await page.goto("https://www.automationexercise.com/");
     await pageManager.homePage.navigateToLogin();
     await pageManager.signupLoginPage.login(credentials.email, credentials.password);
@@ -20,7 +20,7 @@ test("Automation Exercise - Single User", { tag: '@SingleUser' }, async ({ page 
 
 for (const user of userData) {
     test(`Automation Exercise - User ${user.productPosition}`, { tag: '@MultiUser' }, async ({ page }) => {
-        const pageManager = new PageObjectManager(page);
+        const pageManager = new AEPageObjectManager(page);
         await page.goto("https://www.automationexercise.com/");
         await pageManager.homePage.navigateToLogin();
         await pageManager.signupLoginPage.login(user.email, user.password);
@@ -35,7 +35,7 @@ for (const user of userData) {
 }
 
 test("Automation Exercise - Signup", { tag: '@Signup' }, async ({ page }) => {
-    const pageManager = new PageObjectManager(page);
+    const pageManager = new AEPageObjectManager(page);
     const miscUtils = new MiscUtils();
     await page.goto("https://www.automationexercise.com/");
     const signupName = await miscUtils.generateRandomString(6);

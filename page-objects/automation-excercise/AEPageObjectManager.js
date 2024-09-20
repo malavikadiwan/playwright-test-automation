@@ -3,7 +3,7 @@ import { HomePage } from './HomePage';
 import { ProductsPage } from './ProductsPage';
 import { CartPage } from './CartPage';
 
-export class PageObjectManager {
+export class AEPageObjectManager {
     constructor(page) {
         this.signupLoginPage = new SignupLoginPage(page);
         this.homePage = new HomePage(page);

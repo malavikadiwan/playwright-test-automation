@@ -13,7 +13,8 @@
     "MultiUserChrome": "npx playwright test --grep @MultiUser --project=chromium",
     "Signup": "npx playwright test --grep @Signup",
     "ExcelTest": "npx playwright test --grep @ExcelTest",
-    "VisualTest": "npx playwright test --grep @VisualTest"
+    "VisualTest": "npx playwright test --grep @VisualTest",
+    "FinalAssessment": "npx playwright test --grep @FinalAssessment"
   },
   "author": "Malavika Diwan",
   "license": "ISC",

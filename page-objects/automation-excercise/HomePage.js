@@ -8,7 +8,7 @@ export class HomePage {
     this.deleteAccountLink = page.locator('a[href*="delete_account"]');
   }
 
-  async navigateToLogin(password) {
+  async navigateToLogin() {
     await this.loginLink.click();
   }
 
