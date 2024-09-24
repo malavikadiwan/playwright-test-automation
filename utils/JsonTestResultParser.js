@@ -57,7 +57,7 @@ function processResult(result, indent) {
     });
 }
 
-// Usage
+// Parses JSON test result
 (async () => {
     try {
         const filePath = path.join(__dirname, '../', 'test-results.json');

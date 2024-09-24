@@ -7,8 +7,8 @@ export class ATSProductListPage {
         this.outOfStockLabel = page.locator(".nostock");
     }
 
-    async getProductsSortedByPrice() {
-        await this.sortOption.selectOption({ label: 'Price Low > High' });
+    async getSortedProducts(sortByOption) {
+        await this.sortOption.selectOption({ label: sortByOption });
 
         const productDetails = [];
         await this.gridProductName.first().waitFor();

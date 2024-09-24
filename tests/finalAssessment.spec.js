@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 import { ExcelUtils } from "../utils/ExcelUtils";
 import { ATSPageObjectManager } from "../page-objects/automation-test-store/ATSPageObjectManager";
 import credentials from "../test-data/atsLoginData.json";
@@ -23,12 +23,12 @@ test.describe('Final Assessment - Logged-in Users', () => {
         await pageManager.atsCartPage.removeAllProductsFromCart();
     });
 
-    test('Save Product Details to Excel and Purchase Product', async ({ page }) => {
+    test('Save Product Details to Excel and Purchase Product', { tag: '@FinalAssessment' }, async () => {
         // Navigate to the fragrance page
         await pageManager.atsCommonComponents.navigateToFragrancePage();
 
         // Fetch product details sorted by price
-        const productDetails = await pageManager.atsProductListPage.getProductsSortedByPrice();
+        const productDetails = await pageManager.atsProductListPage.getSortedProducts("Price Low > High");
 
         // Print the number of products fetched
         pageManager.atsProductListPage.printNumberOfProductsFetched(productDetails);

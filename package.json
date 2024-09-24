@@ -14,7 +14,8 @@
     "Signup": "npx playwright test --grep @Signup",
     "ExcelTest": "npx playwright test --grep @ExcelTest",
     "VisualTest": "npx playwright test --grep @VisualTest",
-    "FinalAssessment": "npx playwright test --grep @FinalAssessment"
+    "FinalAssessmentChrome": "npx playwright test --grep @FinalAssessment --project=chromium"
+    
   },
   "author": "Malavika Diwan",
   "license": "ISC",
