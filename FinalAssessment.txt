@@ -1,69 +1,84 @@
+Final Assessment Project
 
-## Files Description
+This project contains automated tests for the Automation Test Store using Playwright. The tests are designed to handle scenarios for both logged-in and guest users. The project includes utilities for interacting with the web application and for managing data storage in Excel files.
 
-- **page-objects/automation-test-store/**: Contains Page Object Model (POM) classes for different pages and components of the Automation Test Store.
-  - `ATSAccountPage.js`: Handles login on the account page.
-  - `ATSCartPage.js`: Handles clearing the cart and validating products added on the cart page.
-  - `ATSCheckoutPage.js`: Handles validating product details on the checkout page and placing orders.
-  - `ATSCommonComponents.js`: Handles interactions with common components across the site.
-  - `ATSPageObjectManager.js`: Manages instances of page objects.
-  - `ATSProductDetailsPage.js`: Handles validating product names and adding products to the cart from the product details page.
-  - `ATSProductListPage.js`: Handles sorting and selecting products from the product list page.
+Folder Structure
 
-- **playwright-report/**: Contains test execution reports.
-  - `index.html`: Test execution report in HTML format.
+playwright-test-automation/
+├── page-objects/
+│   └── automation-test-store/
+│       ├── ATSAccountPage.js
+│       ├── ATSCartPage.js
+│       ├── ATSCheckoutPage.js   
+│       ├── ATSCommonComponents.js
+│       ├── ATSPageObjectManager.js
+│       ├── ATSProductDetailsPage.js
+│       └── ATSProductListPage.js
+├── playwright-report/
+│   └── index.html
+├── test-data/
+│   ├── atsLoginData.json
+│   └── FinalAssessmentProductOutput.xlsx
+├── tests/
+│   └── finalAssessment.spec.js
+├── utils/
+│   ├── ExcelUtils.js
+│   └── JsonTestResultParser.js
+└── test-results.json
 
-- **test-data/**: Contains test data files.
-  - `atsLoginData.json`: Contains login credentials for the tests.
-  - `FinalAssessmentProductOutput.xlsx`: Excel file where product details fetched from the site are saved.
+Files Description
 
-- **tests/**: Contains test specifications.
-  - `finalAssessment.spec.js`: Test specification for the final assessment, including tests for logged-in users.
+- page-objects/automation-test-store/: Contains Page Object Model (POM) classes for different pages and components of the Automation Test Store.
+  - ATSAccountPage.js: Manages login functionality on the account page.
+  - ATSCartPage.js: Manages clearing the cart and validating products added to the cart page.
+  - ATSCheckoutPage.js: Manages validating product details on the checkout page and placing orders.
+  - ATSCommonComponents.js: Manages interactions with common components across the site.
+  - ATSPageObjectManager.js: Manages instances of page objects.
+  - ATSProductDetailsPage.js: Manages validating product names and adding products to the cart from the product details page.
+  - ATSProductListPage.js: Manages sorting and selecting products from the product list page.
 
-- **utils/**: Contains utility classes.
-  - `ExcelUtils.js`: Utility class for handling Excel file operations.
-  - `JsonTestResultParser.js`: Script to parse and process test results from a JSON file.
+- playwright-report/: Contains test execution reports.
+  - index.html: Test execution report in HTML format.
 
-- **test-results.json**: Test execution report in JSON format.
+- test-data/: Contains test data files.
+  - atsLoginData.json: Contains login credentials for the tests.
+  - FinalAssessmentProductOutput.xlsx: Excel file where product details fetched from the site are saved.
 
-## Usage
+- tests/: Contains test specifications.
+  - finalAssessment.spec.js: Test specification for the final assessment, including tests for logged-in users.
 
-### 1. Setup
+- utils/: Contains utility classes.
+  - ExcelUtils.js: Utility class for handling Excel file operations.
+  - JsonTestResultParser.js: Script to parse and process test results from a JSON file.
+
+- test-results.json: Test execution report in JSON format.
+
+Usage
+
+1. Setup:
    - Ensure you have Node.js installed.
    - Install dependencies by running:
-     ```bash
      npm install
-     ```
 
-### 2. Running Tests
+2. Running Tests:
    - To run all tests, use:
-     ```bash
      npx playwright test
-     ```
    - To run a specific test, use:
-     ```bash
      npx playwright test tests/finalAssessment.spec.js
-     ```
-   - To run `finalAssessment.spec.js` only in the Chrome browser, use:
-     ```bash
+   - To run finalAssessment.spec.js only in the Chrome browser, use:
      npm run FinalAssessmentChrome
-     ```
 
-### 3. JSON Test Results
-   - JSON test results are saved in [`test-results.json`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FUsers%2Fmadiwan%2FDocuments%2FPlaywright%2Fplaywright-test-automation%2Ftest-results.json%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22716db298-2786-452a-b168-934f106ae535%22%5D "/Users/madiwan/Documents/Playwright/playwright-test-automation/test-results.json") and can be processed using `parseJsonResult.js`.
+3. JSON Test Results:
+   - JSON test results are saved in test-results.json and can be processed using parseJsonResult.js.
    - To process test results, run:
-     ```bash
      node parseJsonResult.js
-     ```
 
-### 4. Viewing HTML Reports
-   - HTML reports are generated in the [`playwright-report`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FUsers%2Fmadiwan%2FDocuments%2FPlaywright%2Fplaywright-test-automation%2Fplaywright-report%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22716db298-2786-452a-b168-934f106ae535%22%5D "/Users/madiwan/Documents/Playwright/playwright-test-automation/playwright-report") folder.
+4. Viewing HTML Reports:
+   - HTML reports are generated in the playwright-report folder.
    - To open the report, use:
-     ```bash
      npx playwright show-report
-     ```
 
-## Test Scenario
+Test Scenario
 
 This test performs the following steps:
    - Logs in a user.
