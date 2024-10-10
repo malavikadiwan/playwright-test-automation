@@ -50,7 +50,7 @@ export class ATSProductListPage {
 
         if (inStockProducts.length === 0) throw new Error('No in-stock products available');
 
-        // Click on the specified or first in-stock product
+        // Click on the specified or in-stock product
         const productToClick = inStockProducts[Math.min(index, inStockProducts.length - 1)];
         const productPrice = inStockPrices[Math.min(index, inStockPrices.length - 1)];
         console.log(`Clicking on product: ${productToClick.name} with price: ${productPrice}`);

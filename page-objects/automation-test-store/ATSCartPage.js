@@ -24,8 +24,6 @@ export class ATSCartPage {
         const removeLinksCount = await this.removeProductLink.count();
         for (let i = 0; i < removeLinksCount; i++) {
             await this.removeProductLink.first().click();
-            // // Wait for the page to reach the 'networkidle' state after each click
-            // await this.page.waitForLoadState('networkidle');
         }
 
         await expect(this.emptyCartMessage).toBeVisible();
